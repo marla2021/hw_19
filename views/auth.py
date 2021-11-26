@@ -8,7 +8,7 @@ import secret as secret
 from flask import request, abort
 from flask_restx import Resource, Namespace
 
-from models import User, UserSchema
+from models import User
 from setup_db import db
 
 auth_ns = Namespace('user')

@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace
 from flask import request
 
-from helpers import auth_required
+from helpers import auth_required, admin_required
 from models import Director, DirectorSchema
 from setup_db import db
 
@@ -15,6 +15,8 @@ class DirectorsView(Resource):
         rs = db.session.query(Director).all()
         res = DirectorSchema(many=True).dump(rs)
         return res, 200
+
+    @admin_required
     def post(self):
         req_json = request.json
         new_director = Director(**req_json)
@@ -30,12 +32,15 @@ class DirectorView(Resource):
         sm_d = DirectorSchema().dump(r)
         return sm_d, 200
 
+    @admin_required
     def delete(self,id):
         director = Director.query.get(id)
         if director:
             db.session.delete(director)
             db.session.commit()
         return '', 204
+
+    @admin_required
     def put(self, id:int):
         director = Director.query.get(id)
         req_json = request.json

@@ -1,7 +1,7 @@
 from flask_restx import Resource, Namespace
 from flask import request
 
-from helpers import auth_required
+from helpers import auth_required, admin_required
 from models import Genre, GenreSchema
 from setup_db import db
 
@@ -15,6 +15,8 @@ class GenresView(Resource):
         rs = db.session.query(Genre).all()
         res = GenreSchema(many=True).dump(rs)
         return res, 200
+
+    @admin_required
     def post(self):
         req_json = request.json
         new_genre = Genre(**req_json)
@@ -30,7 +32,7 @@ class GenreView(Resource):
         sm_d = GenreSchema().dump(r)
         return sm_d, 200
 
-
+    @admin_required
     def delete(self, id):
         genre = Genre.query.get(id)
         if genre:
@@ -38,6 +40,7 @@ class GenreView(Resource):
             db.session.commit()
         return '', 204
 
+    @admin_required
     def put(self, id: int):
         genre = Genre.query.get(id)
         req_json = request.json

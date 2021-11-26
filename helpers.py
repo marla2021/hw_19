@@ -1,6 +1,6 @@
 import jwt
 from flask import request, abort
-from constans import JWT_SECRET
+
 
 algo = 'HS256'
 secret = 's3cR3t'

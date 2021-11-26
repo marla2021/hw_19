@@ -11,7 +11,7 @@ from flask_restx import Resource, Namespace
 from models import User
 from setup_db import db
 
-auth_ns = Namespace('user')
+auth_ns = Namespace('auth')
 
 
 @auth_ns.route('/')
